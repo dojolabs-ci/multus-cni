@@ -82,6 +82,7 @@ type DelegateNetConf struct {
 	IfnameRequest string `json:"ifnameRequest,omitempty"`
 	MacRequest    string `json:"macRequest,omitempty"`
 	IPRequest     string `json:"ipRequest,omitempty"`
+	InterfaceIdRequest     string `json:"interfaceIdRequest,omitempty"`
 	// MasterPlugin is only used internal housekeeping
 	MasterPlugin bool `json:"-"`
 	// Conflist plugin is only used internal housekeeping
@@ -134,6 +135,8 @@ type NetworkSelectionElement struct {
 	// InterfaceRequest contains an optional requested name for the
 	// network interface this attachment will create in the container
 	InterfaceRequest string `json:"interface,omitempty"`
+	// Interface ID
+	InterfaceIdRequest string `json:"interfaceid,omitempty"`
 }
 
 // K8sArgs is the valid CNI_ARGS used for Kubernetes

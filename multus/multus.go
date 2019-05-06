@@ -192,8 +192,7 @@ func delegateAdd(exec invoke.Exec, ifName string, delegate *types.DelegateNetCon
 	if err := validateIfName(os.Getenv("CNI_NETNS"), ifName); err != nil {
 		return nil, logging.Errorf("cannot set %q ifname to %q: %v", delegate.Conf.Type, ifName, err)
 	}
-
-	if delegate.MacRequest != "" || delegate.IPRequest != "" {
+	if delegate.MacRequest != "" || delegate.IPRequest != "" || delegate.InterfaceIdRequest != "" {
 		if cniArgs != "" {
 			cniArgs = fmt.Sprintf("%s;IgnoreUnknown=true", cniArgs)
 		} else {
@@ -223,6 +222,9 @@ func delegateAdd(exec invoke.Exec, ifName string, delegate *types.DelegateNetCon
 
 			cniArgs = fmt.Sprintf("%s;IP=%s", cniArgs, delegate.IPRequest)
 			logging.Debugf("Set IP address %q to %q", delegate.IPRequest, ifName)
+		}
+		if delegate.InterfaceIdRequest != ""  {
+			cniArgs = fmt.Sprintf("%s;PORTID=%s", cniArgs, delegate.InterfaceIdRequest)
 		}
 		if os.Setenv("CNI_ARGS", cniArgs) != nil {
 			return nil, logging.Errorf("cannot set %q mac to %q and ip to %q", delegate.Conf.Type, delegate.MacRequest, delegate.IPRequest)
